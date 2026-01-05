@@ -14,18 +14,20 @@
 buildPythonPackage rec {
   pname = "fusesoc";
   version = "2.4.3";
+  pyproject = true;
 
   src = fetchPypi {
     inherit pname version;
     hash = "sha256-/CWwbLUvUWzQDG0EyfY4IF5G8+NehA/D+OwAuzpkBdU=";
   };
 
-  patches = [ ./fusesoc-without-jsonschema2md.patch ];
+  pythonRemoveDeps = [
+    "jsonschema2md"
+  ];
 
-  pyproject = true;
-  nativeBuildInputs = [ setuptools-scm ];
+  build-system = [ setuptools-scm ];
 
-  propagatedBuildInputs = [
+  dependencies = [
     edalize
     fastjsonschema
     pyparsing
